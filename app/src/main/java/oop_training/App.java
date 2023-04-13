@@ -7,7 +7,7 @@ public class App {
     public static void main(String[] args) {
         Car honda = new Honda();
         Car nissan = new Nissan();
-        Car ferrari = new Ferrari();
+        SuperCar ferrari = new Ferrari();
 
 
         // All Cars has brand, capacity, price, and acceleration
@@ -26,5 +26,22 @@ public class App {
         nissan.brake();
         ferrari.accelerate();
         ferrari.brake();
+
+        // Ferrari default
+        System.out.println("Ferrari default");
+        System.out.println("");
+        System.out.println(ferrari.toString());
+
+        // Lift up ferrari
+        System.out.println("Lifted up ferrari");
+        System.out.println("");
+        ferrari.liftUp();
+        System.out.println(ferrari.toString());
+
+        // Lift down ferrari
+        System.out.println("Lifted down ferrari");
+        System.out.println("");
+        ferrari.liftDown();
+        System.out.println(ferrari.toString());
     }
 }

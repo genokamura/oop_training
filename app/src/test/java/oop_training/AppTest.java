@@ -92,4 +92,66 @@ class AppTest {
         assertTrue(ferrariAcceleration > hondaAcceleration);
         assertTrue(ferrariAcceleration > nissanAcceleration);
     }
+
+    @Test
+    void testFerrariLiftUp() {
+        // Arrange
+        SuperCar ferrari = new Ferrari();
+        int expectedHeight = 140;
+        double expectedAcceleration = 16;
+
+        // Act
+        ferrari.liftUp();
+
+        // Assert
+        assertEquals(expectedHeight, ferrari.getVehicleHeight());
+        assertEquals(expectedAcceleration, ferrari.getAcceleration());
+    }
+
+    @Test
+    void testFerrariCanLiftUpOnlyOnce() {
+        // Arrange
+        SuperCar ferrari = new Ferrari();
+        int expectedHeight = 140;
+        double expectedAcceleration = 16;
+
+        // Act
+        ferrari.liftUp();
+        ferrari.liftUp();
+
+        // Assert
+        assertEquals(expectedHeight, ferrari.getVehicleHeight());
+        assertEquals(expectedAcceleration, ferrari.getAcceleration());
+    }
+
+    @Test
+    void testFerrariCanNotLiftDownUnlessItIsLiftedUp() {
+        // Arrange
+        SuperCar ferrari = new Ferrari();
+        int expectedHeight = 100;
+        double expectedAcceleration = 20;
+
+        // Act
+        ferrari.liftDown();
+
+        // Assert
+        assertEquals(expectedHeight, ferrari.getVehicleHeight());
+        assertEquals(expectedAcceleration, ferrari.getAcceleration());
+    }
+
+    @Test
+    void testFerrariLiftDown() {
+        // Arrange
+        SuperCar ferrari = new Ferrari();
+        int expectedHeight = 100;
+        double expectedAcceleration = 20;
+
+        // Act
+        ferrari.liftUp();
+        ferrari.liftDown();
+
+        // Assert
+        assertEquals(expectedHeight, ferrari.getVehicleHeight());
+        assertEquals(expectedAcceleration, ferrari.getAcceleration());
+    }
 }
