@@ -4,7 +4,7 @@ public class Honda extends Car {
     public Honda() {
         brand = "Honda";
         capacity = 6;
-        price = new Money(3000000);
+        price = new Money(RandomValueGenerator.generateRandomInt(2000000, 3000000));
         acceleration = 8;
     }
 

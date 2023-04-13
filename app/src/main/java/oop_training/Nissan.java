@@ -4,7 +4,7 @@ public class Nissan extends Car {
     public Nissan() {
         brand = "Nissan";
         capacity = 5;
-        price = new Money(1500000);
+        price = new Money(RandomValueGenerator.generateRandomInt(1500000, 1999999));
         acceleration = 8;
     }
 

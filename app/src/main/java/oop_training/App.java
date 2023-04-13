@@ -3,12 +3,14 @@
  */
 package oop_training;
 
+import java.util.List;
+import java.util.ArrayList;
+
 public class App {
     public static void main(String[] args) {
         Car honda = new Honda();
         Car nissan = new Nissan();
-        SuperCar ferrari = new Ferrari();
-
+        Car ferrari = new Ferrari();
 
         // All Cars has brand, capacity, price, and acceleration
         System.out.println("All Cars has brand, capacity, price, and acceleration");
@@ -43,5 +45,31 @@ public class App {
         System.out.println("");
         ferrari.liftDown();
         System.out.println(ferrari.toString());
+
+        // Generate random car
+        int numOfCars = RandomValueGenerator.generateRandomInt(5, 15);
+        System.out.println("Generate " + numOfCars + " cars");
+        System.out.println("");
+
+        List<CarFactory> carFactories = List.of(
+                new HondaFactory(),
+                new NissanFactory(),
+                new FerrariFactory()
+        );
+
+        List<Car> cars = new ArrayList<>();
+
+        for (int i = 0; i < numOfCars; i++) {
+            CarFactory carFactory = carFactories.get(RandomValueGenerator.generateRandomInt(0, 2));
+            Car car = carFactory.create();
+            System.out.println(car.toString());
+            cars.add(car);
+        }
+
+        // Calculate total price and average price
+        System.out.println("Calculate total price and average price");
+        System.out.println("");
+        System.out.println("Total Price of all cars" + CarPriceCalculator.calculateTotalPrice(cars));
+        System.out.println("Average Price of all cars" + CarPriceCalculator.calculateAveragePrice(cars));
     }
 }

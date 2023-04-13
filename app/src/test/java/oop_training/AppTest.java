@@ -3,8 +3,9 @@
  */
 package oop_training;
 
-import org.junit.jupiter.api.Test;
+import java.lang.UnsupportedOperationException;
 
+import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class AppTest {
@@ -96,7 +97,7 @@ class AppTest {
     @Test
     void testFerrariLiftUp() {
         // Arrange
-        SuperCar ferrari = new Ferrari();
+        Car ferrari = new Ferrari();
         int expectedHeight = 140;
         double expectedAcceleration = 16;
 
@@ -111,7 +112,7 @@ class AppTest {
     @Test
     void testFerrariCanLiftUpOnlyOnce() {
         // Arrange
-        SuperCar ferrari = new Ferrari();
+        Car ferrari = new Ferrari();
         int expectedHeight = 140;
         double expectedAcceleration = 16;
 
@@ -127,7 +128,7 @@ class AppTest {
     @Test
     void testFerrariCanNotLiftDownUnlessItIsLiftedUp() {
         // Arrange
-        SuperCar ferrari = new Ferrari();
+        Car ferrari = new Ferrari();
         int expectedHeight = 100;
         double expectedAcceleration = 20;
 
@@ -142,7 +143,7 @@ class AppTest {
     @Test
     void testFerrariLiftDown() {
         // Arrange
-        SuperCar ferrari = new Ferrari();
+        Car ferrari = new Ferrari();
         int expectedHeight = 100;
         double expectedAcceleration = 20;
 
@@ -153,5 +154,22 @@ class AppTest {
         // Assert
         assertEquals(expectedHeight, ferrari.getVehicleHeight());
         assertEquals(expectedAcceleration, ferrari.getAcceleration());
+    }
+
+    @Test
+    void testHondaLiftUpThrowsUnsupportedOperationException() {
+        // Arrange
+        Car honda = new Honda();
+        String expectedMessage = "Not supported yet.";
+
+        // Act
+        Exception exception = assertThrows(UnsupportedOperationException.class, () -> {
+            honda.liftUp();
+        });
+
+        // Assert
+        String actualMessage = exception.getMessage();
+        assertTrue(actualMessage.contains(expectedMessage));
+
     }
 }

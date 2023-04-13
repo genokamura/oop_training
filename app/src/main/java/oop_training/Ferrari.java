@@ -1,10 +1,10 @@
 package oop_training;
 
-public class Ferrari extends SuperCar {
+public class Ferrari extends Car {
     public Ferrari() {
         brand = "Ferrari";
         capacity = 2;
-        price = new Money(50000000);
+        price = new Money(RandomValueGenerator.generateRandomInt(10000000, 50000000));
         acceleration = 20;
         vehicleHeight = 100;
     }
@@ -46,5 +46,13 @@ public class Ferrari extends SuperCar {
     @Override
     public int getVehicleHeight() {
         return vehicleHeight;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(super.toString());
+        sb.append("vehicle height\t:\t").append(vehicleHeight).append("mm").append("\n");
+        return sb.toString();
     }
 }
