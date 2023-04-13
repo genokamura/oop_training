@@ -8,68 +8,47 @@ import java.util.ArrayList;
 
 public class App {
     public static void main(String[] args) {
-        Car honda = new Honda();
-        Car nissan = new Nissan();
-        Car ferrari = new Ferrari();
+        Car honda = new HondaFactory().create();
+        Car nissan = new NissanFactory().create();
+        Car ferrari = new FerrariFactory().create();
 
-        // All Cars has brand, capacity, price, and acceleration
-        System.out.println("All Cars has brand, capacity, price, and acceleration");
+        // Ferrari with a occupant
+        System.out.println("Ferrari with a occupant");
         System.out.println("");
-        System.out.println(honda.toString());
+        ferrari.addOccupant();
+        System.out.println(ferrari.toString());
+
+        // Ferrari with 2 occupants
+        System.out.println("Ferrari with 2 occupants");
+        System.out.println("");
+        ferrari.addOccupant();
+        System.out.println(ferrari.toString());
+
+        // Performance returns when you get out of the car.
+        System.out.println("Performance returns when you get out of the car.");
+        System.out.println("");
+        ferrari.removeOccupant();
+        System.out.println(ferrari.toString());
+
+        // Nissan with 2 occupants
+        System.out.println("Nissan with 2 occupants");
+        System.out.println("");
+        nissan.addOccupant();
+        nissan.addOccupant();
         System.out.println(nissan.toString());
-        System.out.println(ferrari.toString());
 
-        // All Cars has accel and brake
-        System.out.println("All Cars has accel and brake");
+        // Nissan with 3 occupants
+        System.out.println("Nissan with 3 occupants");
         System.out.println("");
-        honda.accelerate();
-        honda.brake();
-        nissan.accelerate();
-        nissan.brake();
-        ferrari.accelerate();
-        ferrari.brake();
+        nissan.addOccupant();
+        System.out.println(nissan.toString());
 
-        // Ferrari default
-        System.out.println("Ferrari default");
+        // Honda with 3 occupants
+        System.out.println("Honda with 3 occupants");
         System.out.println("");
-        System.out.println(ferrari.toString());
-
-        // Lift up ferrari
-        System.out.println("Lifted up ferrari");
-        System.out.println("");
-        ferrari.liftUp();
-        System.out.println(ferrari.toString());
-
-        // Lift down ferrari
-        System.out.println("Lifted down ferrari");
-        System.out.println("");
-        ferrari.liftDown();
-        System.out.println(ferrari.toString());
-
-        // Generate random car
-        int numOfCars = RandomValueGenerator.generateRandomInt(5, 15);
-        System.out.println("Generate " + numOfCars + " cars");
-        System.out.println("");
-
-        List<CarFactory> carFactories = List.of(
-                new HondaFactory(),
-                new NissanFactory(),
-                new FerrariFactory()
-        );
-
-        List<Car> cars = new ArrayList<>();
-
-        for (int i = 0; i < numOfCars; i++) {
-            CarFactory carFactory = carFactories.get(RandomValueGenerator.generateRandomInt(0, 2));
-            Car car = carFactory.create();
-            System.out.println(car.toString());
-            cars.add(car);
-        }
-
-        // Calculate total price and average price
-        System.out.println("Calculate total price and average price");
-        System.out.println("");
-        System.out.println("Total Price of all cars" + CarPriceCalculator.calculateTotalPrice(cars));
-        System.out.println("Average Price of all cars" + CarPriceCalculator.calculateAveragePrice(cars));
+        honda.addOccupant();
+        honda.addOccupant();
+        honda.addOccupant();
+        System.out.println(honda.toString());
     }
 }

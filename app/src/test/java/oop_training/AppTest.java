@@ -3,7 +3,9 @@
  */
 package oop_training;
 
+import java.math.BigDecimal;
 import java.lang.UnsupportedOperationException;
+import java.lang.IllegalStateException;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -85,13 +87,13 @@ class AppTest {
         Car ferrari = new Ferrari();
 
         // Act
-        double hondaAcceleration = honda.getAcceleration();
-        double nissanAcceleration = nissan.getAcceleration();
-        double ferrariAcceleration = ferrari.getAcceleration();
+        BigDecimal hondaAcceleration = honda.getAcceleration();
+        BigDecimal nissanAcceleration = nissan.getAcceleration();
+        BigDecimal ferrariAcceleration = ferrari.getAcceleration();
 
         // Assert
-        assertTrue(ferrariAcceleration > hondaAcceleration);
-        assertTrue(ferrariAcceleration > nissanAcceleration);
+        assertTrue(ferrariAcceleration.compareTo(hondaAcceleration) >  0);
+        assertTrue(ferrariAcceleration.compareTo(nissanAcceleration) > 0);
     }
 
     @Test
@@ -99,7 +101,7 @@ class AppTest {
         // Arrange
         Car ferrari = new Ferrari();
         int expectedHeight = 140;
-        double expectedAcceleration = 16;
+        BigDecimal expectedAcceleration = new BigDecimal("16.0");
 
         // Act
         ferrari.liftUp();
@@ -114,7 +116,7 @@ class AppTest {
         // Arrange
         Car ferrari = new Ferrari();
         int expectedHeight = 140;
-        double expectedAcceleration = 16;
+        BigDecimal expectedAcceleration = new BigDecimal("16.0");
 
         // Act
         ferrari.liftUp();
@@ -130,7 +132,7 @@ class AppTest {
         // Arrange
         Car ferrari = new Ferrari();
         int expectedHeight = 100;
-        double expectedAcceleration = 20;
+        BigDecimal expectedAcceleration = new BigDecimal("20.0");
 
         // Act
         ferrari.liftDown();
@@ -145,7 +147,7 @@ class AppTest {
         // Arrange
         Car ferrari = new Ferrari();
         int expectedHeight = 100;
-        double expectedAcceleration = 20;
+        BigDecimal expectedAcceleration = new BigDecimal("20.0");
 
         // Act
         ferrari.liftUp();
@@ -171,5 +173,97 @@ class AppTest {
         String actualMessage = exception.getMessage();
         assertTrue(actualMessage.contains(expectedMessage));
 
+    }
+
+    @Test
+    void testNissanCanOnlyGetSixtyPercentsOfAccelerationDueToDefect() {
+        // Arrange
+        Car nissan = new Nissan();
+        BigDecimal expectedAcceleration = new BigDecimal("8").multiply(new BigDecimal("0.6"));
+
+        // Act
+        BigDecimal actualAcceleration = nissan.getAcceleration();
+
+        // Assert
+        assertEquals(expectedAcceleration, actualAcceleration);
+    }
+
+    @Test
+    void testDeteriorationOfOneOccpants() {
+        // Arrange
+        Car ferrari = new Ferrari();
+        BigDecimal expectedAcceleration = new BigDecimal("19.0");
+
+        // Act
+        ferrari.addOccupant();
+
+        // Assert
+        assertEquals(expectedAcceleration, ferrari.getAcceleration());
+    }
+
+
+    @Test
+    void testDeteriorationOfTwoOccpants() {
+        // Arrange
+        Car ferrari = new Ferrari();
+        BigDecimal expectedAcceleration = new BigDecimal("18.0");
+
+        // Act
+        ferrari.addOccupant();
+        ferrari.addOccupant();
+
+        // Assert
+        assertEquals(expectedAcceleration, ferrari.getAcceleration());
+    }
+
+    @Test
+    void testPerformanceReturnsWhenOccupantsAreRemoved() {
+        // Arrange
+        Car ferrari = new Ferrari();
+        BigDecimal expectedAcceleration = new BigDecimal("19.0");
+
+        // Act
+        ferrari.addOccupant(); // 19
+        ferrari.addOccupant(); // 18
+        ferrari.removeOccupant(); // 19
+
+        // Assert
+        assertEquals(expectedAcceleration, ferrari.getAcceleration());
+    }
+
+    @Test
+    void testCanNotAddOccupantsMoreThanCapacity() {
+        // Arrange
+        Car ferrari = new Ferrari();
+        String expectedMessage = "The car is full.";
+        int ferrariCapacity = 2;
+
+        // Act
+        for (int i = 0; i < ferrariCapacity; i++) {
+            ferrari.addOccupant();
+        }
+        Exception exception = assertThrows(IllegalStateException.class, () -> {
+            ferrari.addOccupant();
+        });
+
+        // Assert
+        String actualMessage = exception.getMessage();
+        assertTrue(actualMessage.contains(expectedMessage));
+    }
+
+    @Test
+    void testCanNotRemoveOccupantsLessThanZero() {
+        // Arrange
+        Car ferrari = new Ferrari();
+        String expectedMessage = "The car is empty.";
+
+        // Act
+        Exception exception = assertThrows(IllegalStateException.class, () -> {
+            ferrari.removeOccupant();
+        });
+
+        // Assert
+        String actualMessage = exception.getMessage();
+        assertTrue(actualMessage.contains(expectedMessage));
     }
 }

@@ -1,12 +1,15 @@
 package oop_training;
 
+import java.math.BigDecimal;
+
 public class Ferrari extends Car {
     public Ferrari() {
         brand = "Ferrari";
         capacity = 2;
         price = new Money(RandomValueGenerator.generateRandomInt(10000000, 50000000));
-        acceleration = 20;
+        acceleration = new BigDecimal("20");
         vehicleHeight = 100;
+        impactOfOccupantsAddition = this.acceleration.multiply(this.DETERIORATION_OF_ACCELERATION_PER_OCCUPANTS);
     }
 
     @Override
@@ -26,7 +29,7 @@ public class Ferrari extends Car {
         } else {
             isLifted = true;
             this.vehicleHeight += LIFT_UP_HEIGHT;
-            acceleration *= (1 - ACCELERATION_DECREASE_RATE);
+            acceleration = acceleration.multiply(new BigDecimal("1").subtract(ACCELERATION_DECREASE_RATE));
             System.out.println("Ferrari is lifted up");
         }
     }
@@ -36,7 +39,7 @@ public class Ferrari extends Car {
         if (isLifted) {
             isLifted = false;
             this.vehicleHeight -= LIFT_UP_HEIGHT;
-            acceleration /= (1 - ACCELERATION_DECREASE_RATE);
+            acceleration = acceleration.divide(new BigDecimal("1").subtract(ACCELERATION_DECREASE_RATE));
             System.out.println("Ferrari is lifted down");
         } else {
             System.out.println("Ferrari is already lifted down");
@@ -52,7 +55,7 @@ public class Ferrari extends Car {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(super.toString());
-        sb.append("vehicle height\t:\t").append(vehicleHeight).append("mm").append("\n");
+        sb.append("vehicle height\t:\t").append(this.getVehicleHeight()).append("mm").append("\n");
         return sb.toString();
     }
 }
