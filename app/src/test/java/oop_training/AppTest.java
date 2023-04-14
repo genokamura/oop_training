@@ -9,6 +9,8 @@ import java.lang.IllegalStateException;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import org.mockito.MockedStatic;
+import static org.mockito.Mockito.mockStatic;
 
 class AppTest {
     @Test
@@ -265,5 +267,106 @@ class AppTest {
         // Assert
         String actualMessage = exception.getMessage();
         assertTrue(actualMessage.contains(expectedMessage));
+    }
+
+    @Test
+    void testAccelerate() {
+        // Arrange
+        Car ferrari = new Ferrari();
+        BigDecimal expectedSpeed = new BigDecimal("20.0");
+        System.out.println(ferrari.getAcceleration());
+
+        // Act
+        ferrari.accelerate();
+
+        // Assert
+        assertEquals(expectedSpeed, ferrari.getCurrentSpeed());
+    }
+
+    @Test
+    void testBrake() {
+        // Arrange
+        Car ferrari = new Ferrari();
+        BigDecimal expectedSpeed = new BigDecimal("17.0");
+
+        // Act
+        ferrari.accelerate();
+        ferrari.brake();
+
+        // Assert
+        assertEquals(expectedSpeed, ferrari.getCurrentSpeed());
+    }
+
+    @Test
+    void testRun() {
+        // Arrange
+        Car ferrari = new Ferrari();
+        BigDecimal expectedSpeed = new BigDecimal("20.0");
+        BigDecimal exptectedDistance = new BigDecimal("20.0");
+
+        try (MockedStatic<RandomValueGenerator> mock = mockStatic(RandomValueGenerator.class)) {
+            mock.when(() -> RandomValueGenerator.generateRandomInt(1, 4)).thenReturn(2);
+            // Act
+            ferrari.run();
+        }
+
+        // Assert
+        assertEquals(expectedSpeed, ferrari.getCurrentSpeed());
+        assertEquals(exptectedDistance, ferrari.getCurrentDistance());
+    }
+
+    @Test
+    void testCanNotAccelerateWhenReachedMaxSpeed() {
+        // Arrange
+        Car ferrari = new Ferrari();
+        ferrari.addOccupant();
+        BigDecimal expectedSpeed = new BigDecimal("300.0");
+
+        try (MockedStatic<RandomValueGenerator> mock = mockStatic(RandomValueGenerator.class)) {
+            mock.when(() -> RandomValueGenerator.generateRandomInt(1, 4)).thenReturn(2);
+            // Act
+            for (int i = 0; i < 16; i++) {
+                // 16 * 19 = 304km/h
+                ferrari.run();
+            }
+        }
+
+        // Assert
+        assertEquals(expectedSpeed, ferrari.getCurrentSpeed());
+    }
+
+    @Test
+    void testBrakeWhenReachedMaxSpeed() {
+        // Arrange
+        Car ferrari = new Ferrari();
+        BigDecimal expectedSpeed = new BigDecimal("297.0");
+
+        try (MockedStatic<RandomValueGenerator> mock = mockStatic(RandomValueGenerator.class)) {
+            mock.when(() -> RandomValueGenerator.generateRandomInt(1, 4)).thenReturn(2);
+            // Act
+            for (int i = 0; i < 16; i++) {
+                // 15 * 20 = 300km/h + 1 * -3 = 297km/h
+                ferrari.run();
+            }
+        }
+
+        // Assert
+        assertEquals(expectedSpeed, ferrari.getCurrentSpeed());
+    }
+
+    @Test
+    void testAccelerateWhenSpeedIsZero() {
+        // Arrange
+        Car ferrari = new Ferrari();
+        BigDecimal expectedSpeed = new BigDecimal("20.0");
+
+        try (MockedStatic<RandomValueGenerator> mock = mockStatic(RandomValueGenerator.class)) {
+            mock.when(() -> RandomValueGenerator.generateRandomInt(1, 4)).thenReturn(1);
+            // Act
+            ferrari.run();
+        }
+
+        // Assert
+        assertEquals(expectedSpeed, ferrari.getCurrentSpeed());
     }
 }

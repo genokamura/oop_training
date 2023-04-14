@@ -10,17 +10,9 @@ public class Nissan extends Car {
         capacity = 5;
         price = new Money(RandomValueGenerator.generateRandomInt(1500000, 1999999));
         acceleration = new BigDecimal("8");
+        brakePerformance = new BigDecimal("2.0");
+        maxSpeed = 180;
         impactOfOccupantsAddition = this.acceleration.multiply(this.DETERIORATION_OF_ACCELERATION_PER_OCCUPANTS);
-    }
-
-    @Override
-    void accelerate() {
-        System.out.println("Nissan is Accelerating...");
-    }
-
-    @Override
-    void brake() {
-        System.out.println("Nissan is Braking...");
     }
 
     @Override

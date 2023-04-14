@@ -8,18 +8,10 @@ public class Ferrari extends Car {
         capacity = 2;
         price = new Money(RandomValueGenerator.generateRandomInt(10000000, 50000000));
         acceleration = new BigDecimal("20");
+        brakePerformance = new BigDecimal("3.0");
+        maxSpeed = 300;
         vehicleHeight = 100;
         impactOfOccupantsAddition = this.acceleration.multiply(this.DETERIORATION_OF_ACCELERATION_PER_OCCUPANTS);
-    }
-
-    @Override
-    void accelerate() {
-        System.out.println("Ferrari is Accelerating...");
-    }
-
-    @Override
-    void brake() {
-        System.out.println("Ferrari is Braking...");
     }
 
     @Override
