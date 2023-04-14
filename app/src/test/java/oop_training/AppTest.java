@@ -3,12 +3,173 @@
  */
 package oop_training;
 
+import java.lang.UnsupportedOperationException;
+
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class AppTest {
-    @Test void appHasAGreeting() {
-        App classUnderTest = new App();
-        assertNotNull(classUnderTest.getGreeting(), "app should have a greeting");
+    @Test
+    void testHondaHasBestCapacity() {
+        // Arrange
+        Car honda = new Honda();
+        Car nissan = new Nissan();
+        Car ferrari = new Ferrari();
+
+        // Act
+        int hondaCapacity = honda.getCapacity();
+        int nissanCapacity = nissan.getCapacity();
+        int ferrariCapacity = ferrari.getCapacity();
+
+        // Assert
+        assertTrue(hondaCapacity > nissanCapacity);
+        assertTrue(hondaCapacity > ferrariCapacity);
+    }
+
+    @Test
+    void testNissanHasBestPrice() {
+        // Arrange
+        Car honda = new Honda();
+        Car nissan = new Nissan();
+        Car ferrari = new Ferrari();
+
+        // Act
+        Money hondaPrice = honda.getPrice();
+        Money nissanPrice = nissan.getPrice();
+        Money ferrariPrice = ferrari.getPrice();
+
+        // Assert
+        assertTrue(nissanPrice.smallerThan(hondaPrice));
+        assertTrue(nissanPrice.smallerThan(ferrariPrice));
+    }
+
+    @Test
+    void testFerrariHasWorstPrice() {
+        // Arrange
+        Car honda = new Honda();
+        Car nissan = new Nissan();
+        Car ferrari = new Ferrari();
+
+        // Act
+        Money hondaPrice = honda.getPrice();
+        Money nissanPrice = nissan.getPrice();
+        Money ferrariPrice = ferrari.getPrice();
+
+        // Assert
+        assertTrue(ferrariPrice.largerThan(hondaPrice));
+        assertTrue(ferrariPrice.largerThan(nissanPrice));
+    }
+
+    @Test
+    void testFerrariHasWorstCapacity() {
+        // Arrange
+        Car honda = new Honda();
+        Car nissan = new Nissan();
+        Car ferrari = new Ferrari();
+
+        // Act
+        int hondaCapacity = honda.getCapacity();
+        int nissanCapacity = nissan.getCapacity();
+        int ferrariCapacity = ferrari.getCapacity();
+
+        // Assert
+        assertTrue(ferrariCapacity < hondaCapacity);
+        assertTrue(ferrariCapacity < nissanCapacity);
+    }
+
+    @Test
+    void testFerrariHasBestAcceleration() {
+        // Arrange
+        Car honda = new Honda();
+        Car nissan = new Nissan();
+        Car ferrari = new Ferrari();
+
+        // Act
+        double hondaAcceleration = honda.getAcceleration();
+        double nissanAcceleration = nissan.getAcceleration();
+        double ferrariAcceleration = ferrari.getAcceleration();
+
+        // Assert
+        assertTrue(ferrariAcceleration > hondaAcceleration);
+        assertTrue(ferrariAcceleration > nissanAcceleration);
+    }
+
+    @Test
+    void testFerrariLiftUp() {
+        // Arrange
+        Car ferrari = new Ferrari();
+        int expectedHeight = 140;
+        double expectedAcceleration = 16;
+
+        // Act
+        ferrari.liftUp();
+
+        // Assert
+        assertEquals(expectedHeight, ferrari.getVehicleHeight());
+        assertEquals(expectedAcceleration, ferrari.getAcceleration());
+    }
+
+    @Test
+    void testFerrariCanLiftUpOnlyOnce() {
+        // Arrange
+        Car ferrari = new Ferrari();
+        int expectedHeight = 140;
+        double expectedAcceleration = 16;
+
+        // Act
+        ferrari.liftUp();
+        ferrari.liftUp();
+
+        // Assert
+        assertEquals(expectedHeight, ferrari.getVehicleHeight());
+        assertEquals(expectedAcceleration, ferrari.getAcceleration());
+    }
+
+    @Test
+    void testFerrariCanNotLiftDownUnlessItIsLiftedUp() {
+        // Arrange
+        Car ferrari = new Ferrari();
+        int expectedHeight = 100;
+        double expectedAcceleration = 20;
+
+        // Act
+        ferrari.liftDown();
+
+        // Assert
+        assertEquals(expectedHeight, ferrari.getVehicleHeight());
+        assertEquals(expectedAcceleration, ferrari.getAcceleration());
+    }
+
+    @Test
+    void testFerrariLiftDown() {
+        // Arrange
+        Car ferrari = new Ferrari();
+        int expectedHeight = 100;
+        double expectedAcceleration = 20;
+
+        // Act
+        ferrari.liftUp();
+        ferrari.liftDown();
+
+        // Assert
+        assertEquals(expectedHeight, ferrari.getVehicleHeight());
+        assertEquals(expectedAcceleration, ferrari.getAcceleration());
+    }
+
+    @Test
+    void testHondaLiftUpThrowsUnsupportedOperationException() {
+        // Arrange
+        Car honda = new Honda();
+        String expectedMessage = "Not supported yet.";
+
+        // Act
+        Exception exception = assertThrows(UnsupportedOperationException.class, () -> {
+            honda.liftUp();
+        });
+
+        // Assert
+        String actualMessage = exception.getMessage();
+        assertTrue(actualMessage.contains(expectedMessage));
+
     }
 }
