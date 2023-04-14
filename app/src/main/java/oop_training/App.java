@@ -3,12 +3,52 @@
  */
 package oop_training;
 
-public class App {
-    public String getGreeting() {
-        return "Hello World!";
-    }
+import java.util.List;
+import java.util.ArrayList;
 
+public class App {
     public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+        Car honda = new HondaFactory().create();
+        Car nissan = new NissanFactory().create();
+        Car ferrari = new FerrariFactory().create();
+
+        // Ferrari with a occupant
+        System.out.println("Ferrari with a occupant");
+        System.out.println("");
+        ferrari.addOccupant();
+        System.out.println(ferrari.toString());
+
+        // Ferrari with 2 occupants
+        System.out.println("Ferrari with 2 occupants");
+        System.out.println("");
+        ferrari.addOccupant();
+        System.out.println(ferrari.toString());
+
+        // Performance returns when you get out of the car.
+        System.out.println("Performance returns when you get out of the car.");
+        System.out.println("");
+        ferrari.removeOccupant();
+        System.out.println(ferrari.toString());
+
+        // Nissan with 2 occupants
+        System.out.println("Nissan with 2 occupants");
+        System.out.println("");
+        nissan.addOccupant();
+        nissan.addOccupant();
+        System.out.println(nissan.toString());
+
+        // Nissan with 3 occupants
+        System.out.println("Nissan with 3 occupants");
+        System.out.println("");
+        nissan.addOccupant();
+        System.out.println(nissan.toString());
+
+        // Honda with 3 occupants
+        System.out.println("Honda with 3 occupants");
+        System.out.println("");
+        honda.addOccupant();
+        honda.addOccupant();
+        honda.addOccupant();
+        System.out.println(honda.toString());
     }
 }
