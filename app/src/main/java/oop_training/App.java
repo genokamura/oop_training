@@ -4,11 +4,44 @@
 package oop_training;
 
 public class App {
-    public String getGreeting() {
-        return "Hello World!";
-    }
-
     public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+        Car honda = new Honda();
+        Car nissan = new Nissan();
+        SuperCar ferrari = new Ferrari();
+
+
+        // All Cars has brand, capacity, price, and acceleration
+        System.out.println("All Cars has brand, capacity, price, and acceleration");
+        System.out.println("");
+        System.out.println(honda.toString());
+        System.out.println(nissan.toString());
+        System.out.println(ferrari.toString());
+
+        // All Cars has accel and brake
+        System.out.println("All Cars has accel and brake");
+        System.out.println("");
+        honda.accelerate();
+        honda.brake();
+        nissan.accelerate();
+        nissan.brake();
+        ferrari.accelerate();
+        ferrari.brake();
+
+        // Ferrari default
+        System.out.println("Ferrari default");
+        System.out.println("");
+        System.out.println(ferrari.toString());
+
+        // Lift up ferrari
+        System.out.println("Lifted up ferrari");
+        System.out.println("");
+        ferrari.liftUp();
+        System.out.println(ferrari.toString());
+
+        // Lift down ferrari
+        System.out.println("Lifted down ferrari");
+        System.out.println("");
+        ferrari.liftDown();
+        System.out.println(ferrari.toString());
     }
 }
