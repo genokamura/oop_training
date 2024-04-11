@@ -3,12 +3,370 @@
  */
 package oop_training;
 
+import java.math.BigDecimal;
+import java.lang.UnsupportedOperationException;
+import java.lang.IllegalStateException;
+
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import org.mockito.MockedStatic;
+import static org.mockito.Mockito.mockStatic;
 
 class AppTest {
-    @Test void appHasAGreeting() {
-        App classUnderTest = new App();
-        assertNotNull(classUnderTest.getGreeting(), "app should have a greeting");
+    @Test
+    void testHondaHasBestCapacity() {
+        // Arrange
+        Car honda = new Honda();
+        Car nissan = new Nissan();
+        Car ferrari = new Ferrari();
+
+        // Act
+        int hondaCapacity = honda.getCapacity();
+        int nissanCapacity = nissan.getCapacity();
+        int ferrariCapacity = ferrari.getCapacity();
+
+        // Assert
+        assertTrue(hondaCapacity > nissanCapacity);
+        assertTrue(hondaCapacity > ferrariCapacity);
+    }
+
+    @Test
+    void testNissanHasBestPrice() {
+        // Arrange
+        Car honda = new Honda();
+        Car nissan = new Nissan();
+        Car ferrari = new Ferrari();
+
+        // Act
+        Money hondaPrice = honda.getPrice();
+        Money nissanPrice = nissan.getPrice();
+        Money ferrariPrice = ferrari.getPrice();
+
+        // Assert
+        assertTrue(nissanPrice.smallerThan(hondaPrice));
+        assertTrue(nissanPrice.smallerThan(ferrariPrice));
+    }
+
+    @Test
+    void testFerrariHasWorstPrice() {
+        // Arrange
+        Car honda = new Honda();
+        Car nissan = new Nissan();
+        Car ferrari = new Ferrari();
+
+        // Act
+        Money hondaPrice = honda.getPrice();
+        Money nissanPrice = nissan.getPrice();
+        Money ferrariPrice = ferrari.getPrice();
+
+        // Assert
+        assertTrue(ferrariPrice.largerThan(hondaPrice));
+        assertTrue(ferrariPrice.largerThan(nissanPrice));
+    }
+
+    @Test
+    void testFerrariHasWorstCapacity() {
+        // Arrange
+        Car honda = new Honda();
+        Car nissan = new Nissan();
+        Car ferrari = new Ferrari();
+
+        // Act
+        int hondaCapacity = honda.getCapacity();
+        int nissanCapacity = nissan.getCapacity();
+        int ferrariCapacity = ferrari.getCapacity();
+
+        // Assert
+        assertTrue(ferrariCapacity < hondaCapacity);
+        assertTrue(ferrariCapacity < nissanCapacity);
+    }
+
+    @Test
+    void testFerrariHasBestAcceleration() {
+        // Arrange
+        Car honda = new Honda();
+        Car nissan = new Nissan();
+        Car ferrari = new Ferrari();
+
+        // Act
+        BigDecimal hondaAcceleration = honda.getAcceleration();
+        BigDecimal nissanAcceleration = nissan.getAcceleration();
+        BigDecimal ferrariAcceleration = ferrari.getAcceleration();
+
+        // Assert
+        assertTrue(ferrariAcceleration.compareTo(hondaAcceleration) >  0);
+        assertTrue(ferrariAcceleration.compareTo(nissanAcceleration) > 0);
+    }
+
+    @Test
+    void testFerrariLiftUp() {
+        // Arrange
+        Car ferrari = new Ferrari();
+        int expectedHeight = 140;
+        BigDecimal expectedAcceleration = new BigDecimal("16.0");
+
+        // Act
+        ferrari.liftUp();
+
+        // Assert
+        assertEquals(expectedHeight, ferrari.getVehicleHeight());
+        assertEquals(expectedAcceleration, ferrari.getAcceleration());
+    }
+
+    @Test
+    void testFerrariCanLiftUpOnlyOnce() {
+        // Arrange
+        Car ferrari = new Ferrari();
+        int expectedHeight = 140;
+        BigDecimal expectedAcceleration = new BigDecimal("16.0");
+
+        // Act
+        ferrari.liftUp();
+        ferrari.liftUp();
+
+        // Assert
+        assertEquals(expectedHeight, ferrari.getVehicleHeight());
+        assertEquals(expectedAcceleration, ferrari.getAcceleration());
+    }
+
+    @Test
+    void testFerrariCanNotLiftDownUnlessItIsLiftedUp() {
+        // Arrange
+        Car ferrari = new Ferrari();
+        int expectedHeight = 100;
+        BigDecimal expectedAcceleration = new BigDecimal("20.0");
+
+        // Act
+        ferrari.liftDown();
+
+        // Assert
+        assertEquals(expectedHeight, ferrari.getVehicleHeight());
+        assertEquals(expectedAcceleration, ferrari.getAcceleration());
+    }
+
+    @Test
+    void testFerrariLiftDown() {
+        // Arrange
+        Car ferrari = new Ferrari();
+        int expectedHeight = 100;
+        BigDecimal expectedAcceleration = new BigDecimal("20.0");
+
+        // Act
+        ferrari.liftUp();
+        ferrari.liftDown();
+
+        // Assert
+        assertEquals(expectedHeight, ferrari.getVehicleHeight());
+        assertEquals(expectedAcceleration, ferrari.getAcceleration());
+    }
+
+    @Test
+    void testHondaLiftUpThrowsUnsupportedOperationException() {
+        // Arrange
+        Car honda = new Honda();
+        String expectedMessage = "Not supported yet.";
+
+        // Act
+        Exception exception = assertThrows(UnsupportedOperationException.class, () -> {
+            honda.liftUp();
+        });
+
+        // Assert
+        String actualMessage = exception.getMessage();
+        assertTrue(actualMessage.contains(expectedMessage));
+
+    }
+
+    @Test
+    void testNissanCanOnlyGetSixtyPercentsOfAccelerationDueToDefect() {
+        // Arrange
+        Car nissan = new Nissan();
+        BigDecimal expectedAcceleration = new BigDecimal("8").multiply(new BigDecimal("0.6"));
+
+        // Act
+        BigDecimal actualAcceleration = nissan.getAcceleration();
+
+        // Assert
+        assertEquals(expectedAcceleration, actualAcceleration);
+    }
+
+    @Test
+    void testDeteriorationOfOneOccpants() {
+        // Arrange
+        Car ferrari = new Ferrari();
+        BigDecimal expectedAcceleration = new BigDecimal("19.0");
+
+        // Act
+        ferrari.addOccupant();
+
+        // Assert
+        assertEquals(expectedAcceleration, ferrari.getAcceleration());
+    }
+
+
+    @Test
+    void testDeteriorationOfTwoOccpants() {
+        // Arrange
+        Car ferrari = new Ferrari();
+        BigDecimal expectedAcceleration = new BigDecimal("18.0");
+
+        // Act
+        ferrari.addOccupant();
+        ferrari.addOccupant();
+
+        // Assert
+        assertEquals(expectedAcceleration, ferrari.getAcceleration());
+    }
+
+    @Test
+    void testPerformanceReturnsWhenOccupantsAreRemoved() {
+        // Arrange
+        Car ferrari = new Ferrari();
+        BigDecimal expectedAcceleration = new BigDecimal("19.0");
+
+        // Act
+        ferrari.addOccupant(); // 19
+        ferrari.addOccupant(); // 18
+        ferrari.removeOccupant(); // 19
+
+        // Assert
+        assertEquals(expectedAcceleration, ferrari.getAcceleration());
+    }
+
+    @Test
+    void testCanNotAddOccupantsMoreThanCapacity() {
+        // Arrange
+        Car ferrari = new Ferrari();
+        String expectedMessage = "The car is full.";
+        int ferrariCapacity = 2;
+
+        // Act
+        for (int i = 0; i < ferrariCapacity; i++) {
+            ferrari.addOccupant();
+        }
+        Exception exception = assertThrows(IllegalStateException.class, () -> {
+            ferrari.addOccupant();
+        });
+
+        // Assert
+        String actualMessage = exception.getMessage();
+        assertTrue(actualMessage.contains(expectedMessage));
+    }
+
+    @Test
+    void testCanNotRemoveOccupantsLessThanZero() {
+        // Arrange
+        Car ferrari = new Ferrari();
+        String expectedMessage = "The car is empty.";
+
+        // Act
+        Exception exception = assertThrows(IllegalStateException.class, () -> {
+            ferrari.removeOccupant();
+        });
+
+        // Assert
+        String actualMessage = exception.getMessage();
+        assertTrue(actualMessage.contains(expectedMessage));
+    }
+
+    @Test
+    void testAccelerate() {
+        // Arrange
+        Car ferrari = new Ferrari();
+        BigDecimal expectedSpeed = new BigDecimal("20.0");
+        System.out.println(ferrari.getAcceleration());
+
+        // Act
+        ferrari.accelerate();
+
+        // Assert
+        assertEquals(expectedSpeed, ferrari.getCurrentSpeed());
+    }
+
+    @Test
+    void testBrake() {
+        // Arrange
+        Car ferrari = new Ferrari();
+        BigDecimal expectedSpeed = new BigDecimal("17.0");
+
+        // Act
+        ferrari.accelerate();
+        ferrari.brake();
+
+        // Assert
+        assertEquals(expectedSpeed, ferrari.getCurrentSpeed());
+    }
+
+    @Test
+    void testRun() {
+        // Arrange
+        Car ferrari = new Ferrari();
+        BigDecimal expectedSpeed = new BigDecimal("20.0");
+        BigDecimal exptectedDistance = new BigDecimal("20.0");
+
+        try (MockedStatic<RandomValueGenerator> mock = mockStatic(RandomValueGenerator.class)) {
+            mock.when(() -> RandomValueGenerator.generateRandomInt(1, 4)).thenReturn(2);
+            // Act
+            ferrari.run();
+        }
+
+        // Assert
+        assertEquals(expectedSpeed, ferrari.getCurrentSpeed());
+        assertEquals(exptectedDistance, ferrari.getCurrentDistance());
+    }
+
+    @Test
+    void testCanNotAccelerateWhenReachedMaxSpeed() {
+        // Arrange
+        Car ferrari = new Ferrari();
+        ferrari.addOccupant();
+        BigDecimal expectedSpeed = new BigDecimal("300.0");
+
+        try (MockedStatic<RandomValueGenerator> mock = mockStatic(RandomValueGenerator.class)) {
+            mock.when(() -> RandomValueGenerator.generateRandomInt(1, 4)).thenReturn(2);
+            // Act
+            for (int i = 0; i < 16; i++) {
+                // 16 * 19 = 304km/h
+                ferrari.run();
+            }
+        }
+
+        // Assert
+        assertEquals(expectedSpeed, ferrari.getCurrentSpeed());
+    }
+
+    @Test
+    void testBrakeWhenReachedMaxSpeed() {
+        // Arrange
+        Car ferrari = new Ferrari();
+        BigDecimal expectedSpeed = new BigDecimal("297.0");
+
+        try (MockedStatic<RandomValueGenerator> mock = mockStatic(RandomValueGenerator.class)) {
+            mock.when(() -> RandomValueGenerator.generateRandomInt(1, 4)).thenReturn(2);
+            // Act
+            for (int i = 0; i < 16; i++) {
+                // 15 * 20 = 300km/h + 1 * -3 = 297km/h
+                ferrari.run();
+            }
+        }
+
+        // Assert
+        assertEquals(expectedSpeed, ferrari.getCurrentSpeed());
+    }
+
+    @Test
+    void testAccelerateWhenSpeedIsZero() {
+        // Arrange
+        Car ferrari = new Ferrari();
+        BigDecimal expectedSpeed = new BigDecimal("20.0");
+
+        try (MockedStatic<RandomValueGenerator> mock = mockStatic(RandomValueGenerator.class)) {
+            mock.when(() -> RandomValueGenerator.generateRandomInt(1, 4)).thenReturn(1);
+            // Act
+            ferrari.run();
+        }
+
+        // Assert
+        assertEquals(expectedSpeed, ferrari.getCurrentSpeed());
     }
 }
